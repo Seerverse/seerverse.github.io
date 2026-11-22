@@ -1,0 +1,119 @@
+{
+  "handle": "0xSeerBear",
+  "updated": "2026-11-22T11:13:15Z",
+  "profiles": [
+    {
+      "platform": "Sherlock",
+      "url": "https://audits.sherlock.xyz/watson/0xSeerBear",
+      "stats": {
+        "high": 3,
+        "medium": 2,
+        "rank": 1419
+      }
+    },
+    {
+      "platform": "Code4rena",
+      "url": "https://code4rena.com/@0xSeer",
+      "stats": {
+        "rank": 1080,
+        "high": 2,
+        "medium": 2
+      }
+    },
+    {
+      "platform": "Cantina",
+      "url": "https://cantina.xyz/u/0xSeer",
+      "stats": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 1,
+        "reputation": 35
+      }
+    },
+    {
+      "platform": "HackenProof",
+      "url": "https://hackenproof.com/hackers/0xseerbear",
+      "stats": {
+        "rank": 2676,
+        "reputation": 147
+      }
+    }
+  ],
+  "findings": [
+    {
+      "platform": "Code4rena",
+      "competition": "Olas",
+      "date": "2026-01",
+      "severity": "high",
+      "title": "Variable Overwrite in checkPoolAndGetCenterPrice() Creates Dead-Code Deviation Check, Leaving All V3 Protocol-Owned Liquidity Operations Unprotected",
+      "placement": 56,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Sherlock",
+      "competition": "Fluid DEX v2",
+      "date": "2026-01",
+      "severity": "high",
+      "title": "Attacker will steal all protocol funds from other users as uncapped withdrawal amount in `_processNormalSupplyAction` allows draining MoneyMarket's Liquidity balance",
+      "placement": 12,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Code4rena",
+      "competition": "SukukFi",
+      "date": "2025-11",
+      "severity": "high",
+      "title": "Missing access control in `WERC7575Vault` allows unauthorized withdrawals",
+      "placement": 4,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Code4rena",
+      "competition": "SukukFi",
+      "date": "2025-11",
+      "severity": "medium",
+      "title": "`fulfillRedeem` may corrupt share price and allow over-redemption of assets",
+      "placement": 4,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Code4rena",
+      "competition": "Hybra Finance",
+      "date": "2025-10",
+      "severity": "medium",
+      "title": "`ClaimFees` Steals Staking Rewards",
+      "placement": 20,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "HackenProof",
+      "competition": "Mawari SC DualDefense Audit",
+      "date": null,
+      "severity": "undisclosed",
+      "title": "Hall of fame; severity not public",
+      "count": 1,
+      "placement": 3,
+      "status": "accepted",
+      "link": "https://hackenproof.com/programs/mawari-sc-dualdefense-audit",
+      "source": "HackenProof"
+    },
+    {
+      "platform": "HackenProof",
+      "competition": "Mawari SC DualDefense Audit: Part Two",
+      "date": null,
+      "severity": "undisclosed",
+      "title": "Hall of fame; severity not public",
+      "count": 2,
+      "placement": 10,
+      "status": "accepted",
+      "link": "https://hackenproof.com/programs/mawari-sc-dualdefense-audit-part-two",
+      "source": "HackenProof"
+    }
+  ]
+}

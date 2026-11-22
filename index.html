@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seerverse · 0xSeerBear</title>
+<meta name="description" content="Public audit and bug bounty record of 0xSeerBear, aggregated from Sherlock, Code4rena, Cantina and HackenProof.">
+<link rel="icon" href="assets/seerverse.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--void:#06070a;--night:#0e1015;--slab:#1b1e24;--stone:#4a4f58;--stone-hi:#7c828c;--stone-lo:#24272d;--ink:#000;
+ --paper:#d4d6d9;--paper-lo:#a9adb3;--paper-ink:#25282d;--text:#d7dade;--dim:#8b919a;--glow:#7ff0ff;--glow-mid:#38c9e0;--glow-deep:#16788a;
+ --px:4px;--head:"Silkscreen",ui-monospace,monospace;--body:"VT323",ui-monospace,monospace}
+*{box-sizing:border-box}
+html{background:var(--void)}
+body{margin:0;color:var(--text);font:22px/1.25 var(--body);min-height:100vh;position:relative;overflow-x:hidden}
+#sky{position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background-image:radial-gradient(2px 2px at 12% 18%,#fff9 50%,transparent 51%),radial-gradient(2px 2px at 72% 9%,#fff7 50%,transparent 51%),
+ radial-gradient(2px 2px at 38% 62%,#fff5 50%,transparent 51%),radial-gradient(2px 2px at 88% 44%,#fff6 50%,transparent 51%),
+ radial-gradient(2px 2px at 22% 84%,#fff5 50%,transparent 51%),radial-gradient(2px 2px at 60% 30%,#fff4 50%,transparent 51%),
+ radial-gradient(2px 2px at 93% 78%,#fff6 50%,transparent 51%),radial-gradient(2px 2px at 5% 50%,#fff4 50%,transparent 51%);background-size:360px 360px}
+#sky i{position:absolute;width:14px;height:14px;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%207%207'%20shape-rendering%3D'crispEdges'%3E%3Cg%20fill%3D'%237ff0ff'%3E%3Crect%20x%3D'3'%20y%3D'0'%20width%3D'1'%20height%3D'7'%2F%3E%3Crect%20x%3D'0'%20y%3D'3'%20width%3D'7'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'3'%20height%3D'3'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center/contain no-repeat;image-rendering:pixelated;
+ filter:drop-shadow(0 0 4px #7ff0ffaa);animation:tw 3.2s steps(4) infinite}
+#sky i.w{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%207%207'%20shape-rendering%3D'crispEdges'%3E%3Cg%20fill%3D'%23e8ecf0'%3E%3Crect%20x%3D'3'%20y%3D'0'%20width%3D'1'%20height%3D'7'%2F%3E%3Crect%20x%3D'0'%20y%3D'3'%20width%3D'7'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'3'%20height%3D'3'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");filter:none;width:10px;height:10px}
+@keyframes tw{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+img{image-rendering:pixelated}
+a{color:var(--glow);text-decoration:none}
+a:hover{color:#fff;text-shadow:0 0 6px var(--glow)}
+.wrap{max-width:1060px;margin:0 auto;padding:36px 22px 40px}
+
+/* stone frame: notched pixel outline + bevel, like the sigil ring */
+.stone{position:relative;background:var(--night);
+ box-shadow:inset var(--px) var(--px) 0 var(--stone-hi),inset calc(-1*var(--px)) calc(-1*var(--px)) 0 var(--stone-lo),
+  inset 0 0 0 calc(2*var(--px)) var(--stone),
+  0 calc(-1*var(--px)) 0 0 var(--ink),0 var(--px) 0 0 var(--ink),calc(-1*var(--px)) 0 0 0 var(--ink),var(--px) 0 0 0 var(--ink),
+  0 calc(2*var(--px)) 0 0 #0008}
+.stone::before,.stone::after{content:"";position:absolute;top:10px;width:8px;height:8px;background:var(--stone-hi);box-shadow:0 0 0 2px var(--ink),2px 2px 0 2px var(--stone-lo)}
+.stone::before{left:10px}.stone::after{right:10px}
+
+header{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+.sigil{width:170px;filter:drop-shadow(0 0 0 #000) drop-shadow(0 0 22px #38c9e055);animation:pulse 4s steps(6) infinite}
+@keyframes pulse{50%{filter:drop-shadow(0 0 30px #38c9e088)}}
+h1{margin:0;font:700 52px/1 var(--head);letter-spacing:2px;color:var(--paper);text-shadow:4px 4px 0 var(--ink),0 0 0 #000}
+h1 span{color:var(--glow);text-shadow:4px 4px 0 var(--glow-deep),0 0 18px #7ff0ff88}
+.oath{color:var(--dim);margin:10px 0 0;max-width:600px;font-size:22px}
+.oath::before{content:"📜 ";filter:grayscale(1)}
+.who{display:inline-flex;align-items:center;gap:12px;margin-top:14px;padding:8px 18px 8px 8px}
+.who img{width:52px;height:52px;background:#c9ccd0;box-shadow:0 0 0 3px var(--ink)}
+.who b{font:400 28px/1 var(--body);letter-spacing:1px;color:var(--paper)}
+.who small{display:block;color:var(--dim);font-size:18px}
+
+.panel{margin-top:34px;padding:30px 30px 26px}
+.panel h2{margin:0 0 20px;font:700 16px var(--head);letter-spacing:3px;text-transform:uppercase;color:var(--paper);display:flex;align-items:center;gap:12px}
+.panel h2::before{content:"";width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%207%207'%20shape-rendering%3D'crispEdges'%3E%3Cg%20fill%3D'%237ff0ff'%3E%3Crect%20x%3D'3'%20y%3D'0'%20width%3D'1'%20height%3D'7'%2F%3E%3Crect%20x%3D'0'%20y%3D'3'%20width%3D'7'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'3'%20height%3D'3'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center/contain no-repeat;filter:drop-shadow(0 0 5px #7ff0ff)}
+.panel h2::after{content:"";flex:1;height:4px;background:repeating-linear-gradient(90deg,var(--stone) 0 8px,transparent 8px 16px)}
+
+/* stat tiles = the "0x" cards from the sigil: pale paper, black pixel outline */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px}
+.card{position:relative;background:var(--paper);color:var(--paper-ink);padding:14px 16px 12px;
+ box-shadow:inset -4px -4px 0 var(--paper-lo),inset 4px 4px 0 #eef0f2,0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink),6px 8px 0 #0009}
+.card b{display:block;font:700 42px/1 var(--head)}
+.card small{font:400 13px var(--head);letter-spacing:2px;text-transform:uppercase;opacity:.75}
+.card.hl b{color:var(--glow-deep)}
+
+.profiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.prof{display:block;padding:18px 18px 14px;background:var(--slab);color:var(--text);transition:transform .15s steps(2)}
+.prof::before,.prof::after{top:8px;width:6px;height:6px}.prof::before{left:auto;right:22px}
+.prof:hover{transform:translate(-2px,-2px);text-shadow:none;color:var(--text)}
+.prof:hover .n{text-shadow:0 0 10px var(--glow)}
+.prof .n{font:700 17px var(--head);white-space:nowrap;color:var(--glow)}
+.prof .h{color:var(--dim);font-size:19px}.prof .s{margin-top:8px;font-size:21px;color:var(--paper)}
+
+.filters{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 20px}
+.filters button{font:400 14px var(--head);letter-spacing:1px;color:var(--text);background:var(--stone);border:0;padding:6px 14px;cursor:pointer;
+ box-shadow:inset 3px 3px 0 var(--stone-hi),inset -3px -3px 0 var(--stone-lo),0 -3px 0 var(--ink),0 3px 0 var(--ink),-3px 0 0 var(--ink),3px 0 0 var(--ink)}
+.filters button:active{transform:translateY(2px)}
+.filters button.on{background:var(--glow-mid);color:var(--ink);box-shadow:inset 3px 3px 0 var(--glow),inset -3px -3px 0 var(--glow-deep),0 -3px 0 var(--ink),0 3px 0 var(--ink),-3px 0 0 var(--ink),3px 0 0 var(--ink),0 0 16px #38c9e088}
+
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:12px 10px;vertical-align:top;background:repeating-linear-gradient(90deg,#2b2f36 0 6px,transparent 6px 12px) bottom/100% 2px no-repeat}
+th{font:400 12px var(--head);letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+td:first-child{white-space:nowrap;color:var(--dim)}
+td.c{color:var(--paper)}
+td.t{color:#b9bec5;font-size:20px}
+td.t code{font:inherit;color:var(--glow)}
+td.pl{font:700 15px var(--head);color:var(--paper)}
+tbody tr:hover td{background-color:#ffffff06}
+.sev{display:inline-flex;align-items:center;gap:8px;font:400 13px var(--head);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+.sev::before{content:"";width:12px;height:18px;background:center/contain no-repeat;image-rendering:pixelated}
+.sev.critical{color:#ff7a96}.sev.critical::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%209'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'1'%20y%3D'0'%20width%3D'4'%20height%3D'9'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'0'%20y%3D'1'%20width%3D'6'%20height%3D'7'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'4'%20height%3D'7'%20fill%3D'%23ff5c7f'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'3'%20fill%3D'%23fff'%2F%3E%3Crect%20x%3D'3'%20y%3D'5'%20width%3D'2'%20height%3D'2'%20fill%3D'%23a3243f'%2F%3E%3C%2Fsvg%3E");filter:drop-shadow(0 0 5px #ff5c7f)}
+.sev.high{color:#ffad6b}.sev.high::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%209'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'1'%20y%3D'0'%20width%3D'4'%20height%3D'9'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'0'%20y%3D'1'%20width%3D'6'%20height%3D'7'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'4'%20height%3D'7'%20fill%3D'%23ff9a4d'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'3'%20fill%3D'%23fff'%2F%3E%3Crect%20x%3D'3'%20y%3D'5'%20width%3D'2'%20height%3D'2'%20fill%3D'%23a8501a'%2F%3E%3C%2Fsvg%3E");filter:drop-shadow(0 0 5px #ff9a4d)}
+.sev.medium{color:#ffdc7a}.sev.medium::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%209'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'1'%20y%3D'0'%20width%3D'4'%20height%3D'9'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'0'%20y%3D'1'%20width%3D'6'%20height%3D'7'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'4'%20height%3D'7'%20fill%3D'%23ffd166'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'3'%20fill%3D'%23fff'%2F%3E%3Crect%20x%3D'3'%20y%3D'5'%20width%3D'2'%20height%3D'2'%20fill%3D'%23a8801c'%2F%3E%3C%2Fsvg%3E");filter:drop-shadow(0 0 4px #ffd166)}
+.sev.low{color:var(--glow)}.sev.low::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%209'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'1'%20y%3D'0'%20width%3D'4'%20height%3D'9'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'0'%20y%3D'1'%20width%3D'6'%20height%3D'7'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'4'%20height%3D'7'%20fill%3D'%237ff0ff'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'3'%20fill%3D'%23fff'%2F%3E%3Crect%20x%3D'3'%20y%3D'5'%20width%3D'2'%20height%3D'2'%20fill%3D'%2316788a'%2F%3E%3C%2Fsvg%3E");filter:drop-shadow(0 0 4px #7ff0ff)}
+.sev.undisclosed{color:var(--dim)}.sev.undisclosed::before{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%206%209'%20shape-rendering%3D'crispEdges'%3E%3Crect%20x%3D'1'%20y%3D'0'%20width%3D'4'%20height%3D'9'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'0'%20y%3D'1'%20width%3D'6'%20height%3D'7'%20fill%3D'%23000'%2F%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'4'%20height%3D'7'%20fill%3D'%235b616b'%2F%3E%3Crect%20x%3D'2'%20y%3D'2'%20width%3D'1'%20height%3D'3'%20fill%3D'%23fff'%2F%3E%3Crect%20x%3D'3'%20y%3D'5'%20width%3D'2'%20height%3D'2'%20fill%3D'%232b2f36'%2F%3E%3C%2Fsvg%3E")}
+
+.paws{height:18px;margin:36px auto 0;max-width:260px;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%209%209'%20shape-rendering%3D'crispEdges'%3E%3Cg%20fill%3D'%235b616b'%3E%3Crect%20x%3D'1'%20y%3D'1'%20width%3D'2'%20height%3D'2'%2F%3E%3Crect%20x%3D'6'%20y%3D'1'%20width%3D'2'%20height%3D'2'%2F%3E%3Crect%20x%3D'0'%20y%3D'4'%20width%3D'2'%20height%3D'2'%2F%3E%3Crect%20x%3D'7'%20y%3D'4'%20width%3D'2'%20height%3D'2'%2F%3E%3Crect%20x%3D'3'%20y%3D'4'%20width%3D'3'%20height%3D'1'%2F%3E%3Crect%20x%3D'2'%20y%3D'5'%20width%3D'5'%20height%3D'3'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") 0 0/18px 18px repeat-x;image-rendering:pixelated;opacity:.8}
+footer{margin-top:18px;color:var(--dim);font-size:19px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+footer img{width:44px;vertical-align:middle;margin-right:8px;filter:drop-shadow(0 0 8px #38c9e055)}
+@media(max-width:700px){header{grid-template-columns:1fr;justify-items:center;text-align:center}h1{font-size:36px}.panel{padding:24px 14px}
+ thead{display:none}table,tbody{display:block}
+ tbody tr{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"c c c" "d p s" "t t t";position:relative;gap:4px 12px;padding:12px 4px;
+  background:repeating-linear-gradient(90deg,#2b2f36 0 6px,transparent 6px 12px) bottom/100% 2px no-repeat}
+ tbody td{display:block;padding:0;background:none;min-width:0;overflow-wrap:anywhere}
+ td.c{grid-area:c;font-size:23px}td.pl{position:absolute;right:4px;top:14px}td.c{padding-right:3.2em}td.s{grid-area:s;text-align:right}td.t{grid-area:t;font-size:19px}
+ td.d,td.p{font-size:18px;color:var(--dim);align-self:center;white-space:nowrap}td.d{grid-area:d}td.p{grid-area:p}td.s{align-self:center}
+ .who{text-align:left}.tiles,.profiles{grid-template-columns:1fr 1fr;gap:16px}.profiles{grid-template-columns:1fr}.card b{font-size:34px}}
+@media(prefers-reduced-motion:reduce){#sky i,.sigil{animation:none}}
+</style>
+</head>
+<body>
+<div id="sky"></div>
+<div class="wrap">
+ <header>
+  <img class="sigil" src="assets/seerverse.png" alt="Seerverse sigil">
+  <div>
+   <h1><span>SEER</span>VERSE</h1>
+   <p class="oath">A silent guardian at the edge of the digital wilderness, where the veil between order and chaos is thin.</p>
+   <div class="who stone"><img src="assets/me.jpeg" alt=""><div><b>0xSeerBear</b><small>smart contract security · audit contests · bug bounties</small></div></div>
+  </div>
+ </header>
+
+ <section class="panel stone"><h2>Valid findings</h2><div class="tiles" id="tiles"></div></section>
+ <section class="panel stone"><h2>Public profiles</h2><div class="profiles" id="profiles"></div></section>
+ <section class="panel stone"><h2>The ledger</h2>
+  <div class="filters" id="filters"></div>
+  <table><thead><tr><th>Date</th><th>Platform</th><th>Competition</th><th>Severity</th><th class="t">Finding</th><th>Place</th></tr></thead><tbody id="rows"></tbody></table>
+ </section>
+
+ <div class="paws"></div>
+ <footer><span><img src="assets/grimoire.png" alt="">Read from public profile pages daily · updated <span id="updated">…</span></span>
+ <a href="https://github.com/0xSeerBear">github.com/0xSeerBear ↗</a></footer>
+</div>
+<script>
+const HANDLES={Sherlock:"0xSeerBear",Code4rena:"0xSeer",Cantina:"0xSeer",HackenProof:"0xseerbear"};
+const SEV=["critical","high","medium","low","undisclosed"];
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const code=s=>esc(s).replace(/`([^`]+)`/g,"<code>$1</code>");
+const sky=document.getElementById("sky");for(let i=0;i<26;i++){const s=document.createElement("i");if(i%3)s.className="w";s.style.left=Math.random()*100+"%";s.style.top=Math.random()*100+"%";s.style.animationDelay=(Math.random()*3).toFixed(2)+"s";sky.appendChild(s);}
+fetch("data/profile.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
+ const F=d.findings;
+ const n_=f=>f.count||1;
+ const count=k=>F.filter(f=>f.severity===k).reduce((a,f)=>a+n_(f),0);
+ const contests=new Set(F.map(f=>f.platform+"|"+f.competition)).size;
+ const tiles=[["Findings",F.reduce((a,f)=>a+n_(f),0)],["Competitions",contests],["High",count("high")],["Medium",count("medium")]];
+ if(count("critical"))tiles.splice(2,0,["Critical",count("critical")]);
+ document.getElementById("tiles").innerHTML=tiles.map(([k,v])=>'<div class="card'+(k==="Findings"?" hl":"")+'"><b>'+v+'</b><small>'+k+'</small></div>').join("");
+ document.getElementById("profiles").innerHTML=d.profiles.map(p=>{
+  const n=F.filter(f=>f.platform===p.platform);
+  const by=SEV.filter(s=>n.some(f=>f.severity===s)).map(s=>n.filter(f=>f.severity===s).reduce((a,f)=>a+(f.count||1),0)+" "+s).join(" · ");
+  const extra=[p.stats.rank?"rank #"+p.stats.rank:"",p.stats.reputation!=null?"rep "+p.stats.reputation:""].filter(Boolean).join(" · ");
+  return '<a class="prof stone" href="'+esc(p.url)+'" target="_blank" rel="noopener"><div class="n">'+esc(p.platform)+' ↗</div><div class="h">@'+esc(HANDLES[p.platform]||"")+'</div><div class="s">'+(by||SEV.filter(s=>p.stats[s]).map(s=>p.stats[s]+" "+s).join(" · ")+" (list not public)"||"no public findings yet")+'</div><div class="h">'+extra+'</div></a>';
+ }).join("");
+ const plats=["All",...new Set(F.map(f=>f.platform))];
+ let cur="All";
+ const draw=()=>{
+  document.getElementById("filters").innerHTML=plats.map(p=>'<button class="'+(p===cur?"on":"")+'" data-p="'+esc(p)+'">'+esc(p)+'</button>').join("");
+  document.getElementById("rows").innerHTML=F.filter(f=>cur==="All"||f.platform===cur).map(f=>
+   '<tr><td class="d">'+esc(f.date||"—")+'</td><td class="p">'+esc(f.platform)+'</td><td class="c">'+(f.link?'<a href="'+esc(f.link)+'" target="_blank" rel="noopener">'+esc(f.competition)+'</a>':esc(f.competition))+
+   (f.count>1?" ×"+f.count:"")+'</td><td class="s"><span class="sev '+esc(f.severity)+'">'+esc(f.severity)+'</span></td><td class="t">'+code(f.title)+'</td><td class="pl">'+(f.placement?"#"+f.placement:"—")+'</td></tr>').join("");
+ };
+ document.getElementById("filters").onclick=e=>{if(e.target.dataset.p){cur=e.target.dataset.p;draw();}};
+ draw();
+ document.getElementById("updated").textContent=new Date(d.updated).toUTCString().replace(" GMT"," UTC");
+});
+</script>
+</body>
+</html>
