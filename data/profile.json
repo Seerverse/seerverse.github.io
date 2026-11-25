@@ -1,6 +1,6 @@
 {
   "handle": "0xSeerBear",
-  "updated": "2026-11-24T17:42:25Z",
+  "updated": "2026-11-25T17:12:34Z",
   "profiles": [
     {
       "platform": "Sherlock",
@@ -8,7 +8,7 @@
       "stats": {
         "high": 3,
         "medium": 2,
-        "rank": 1419
+        "rank": 1424
       }
     },
     {
@@ -35,7 +35,7 @@
       "platform": "HackenProof",
       "url": "https://hackenproof.com/hackers/0xseerbear",
       "stats": {
-        "rank": 2677,
+        "rank": 2678,
         "reputation": 147
       }
     }
