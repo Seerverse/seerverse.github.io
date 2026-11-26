@@ -22,6 +22,19 @@ PROFILES = {
     "Cantina": "https://cantina.xyz/u/0xSeer",
     "HackenProof": "https://hackenproof.com/hackers/0xseerbear",
 }
+# Listed without a fetch: Immunefi answers scripts with a Cloudflare challenge.
+STATIC_PROFILES = [
+    {"platform": "Immunefi", "url": "https://immunefi.com/profile/SeerBear/", "stats": {}},
+]
+# Hand-kept, since Immunefi cannot be fetched. Titles are the official ones from the competition report.
+MANUAL_FINDINGS = [
+    {"platform": "Immunefi", "competition": "Plether", "date": "2026-11", "severity": "high",
+     "title": "Permissionless retryPositionProtectionClose consumes the Latched state before the owner can amend unexecutable close limits",
+     "placement": 85, "status": "accepted", "source": "manual"},
+    {"platform": "Immunefi", "competition": "Plether", "date": "2026-11", "severity": "high",
+     "title": "Junior deposits at near-zero principal inflate share supply until the deposit quote overflows and halts LP settlement",
+     "placement": 85, "status": "accepted", "source": "manual"},
+]
 SEVERITIES = ("critical", "high", "medium", "low")
 MONTH = re.compile(r"^[A-Z][a-z]{2} '\d\d$")
 
@@ -166,6 +179,8 @@ def main() -> int:
     run("Code4rena", code4rena)
     run("Cantina", cantina)
     run("HackenProof", hackenproof)
+    profiles.extend(STATIC_PROFILES)
+    findings.extend(MANUAL_FINDINGS)
 
     findings.sort(key=lambda f: f["date"] or "", reverse=True)
     data = {

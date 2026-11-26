@@ -1,6 +1,6 @@
 {
   "handle": "0xSeerBear",
-  "updated": "2026-11-26T16:53:32Z",
+  "updated": "2026-11-26T17:38:56Z",
   "profiles": [
     {
       "platform": "Sherlock",
@@ -38,9 +38,34 @@
         "rank": 2681,
         "reputation": 147
       }
+    },
+    {
+      "platform": "Immunefi",
+      "url": "https://immunefi.com/profile/SeerBear/",
+      "stats": {}
     }
   ],
   "findings": [
+    {
+      "platform": "Immunefi",
+      "competition": "Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Permissionless retryPositionProtectionClose consumes the Latched state before the owner can amend unexecutable close limits",
+      "placement": 85,
+      "status": "accepted",
+      "source": "manual"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Junior deposits at near-zero principal inflate share supply until the deposit quote overflows and halts LP settlement",
+      "placement": 85,
+      "status": "accepted",
+      "source": "manual"
+    },
     {
       "platform": "Code4rena",
       "competition": "Olas",

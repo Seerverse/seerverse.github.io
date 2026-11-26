@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Seerverse · 0xSeerBear</title>
-<meta name="description" content="Public audit and bug bounty record of 0xSeerBear, aggregated from Sherlock, Code4rena, Cantina and HackenProof.">
+<meta name="description" content="Public audit and bug bounty record of 0xSeerBear, aggregated from Sherlock, Code4rena, Cantina, HackenProof and Immunefi.">
 <link rel="icon" href="assets/seerverse.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
@@ -144,7 +144,7 @@ footer img{width:44px;vertical-align:middle;margin-right:8px;filter:drop-shadow(
  <a href="https://github.com/0xSeerBear">github.com/0xSeerBear ↗</a></footer>
 </div>
 <script>
-const HANDLES={Sherlock:"0xSeerBear",Code4rena:"0xSeer",Cantina:"0xSeer",HackenProof:"0xseerbear"};
+const HANDLES={Sherlock:"0xSeerBear",Code4rena:"0xSeer",Cantina:"0xSeer",HackenProof:"0xseerbear",Immunefi:"SeerBear"};
 const SEV=["critical","high","medium","low","undisclosed"];
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const code=s=>esc(s).replace(/`([^`]+)`/g,"<code>$1</code>");
@@ -160,8 +160,9 @@ fetch("data/profile.json",{cache:"no-store"}).then(r=>r.json()).then(d=>{
  document.getElementById("profiles").innerHTML=d.profiles.map(p=>{
   const n=F.filter(f=>f.platform===p.platform);
   const by=SEV.filter(s=>n.some(f=>f.severity===s)).map(s=>'<span class="w-'+s+'">'+n.filter(f=>f.severity===s).reduce((a,f)=>a+(f.count||1),0)+" "+s+'</span>').join(" · ");
+  const st=SEV.filter(s=>p.stats[s]).map(s=>p.stats[s]+" "+s).join(" · ");
   const extra=[p.stats.rank?"rank #"+p.stats.rank:"",p.stats.reputation!=null?"rep "+p.stats.reputation:""].filter(Boolean).join(" · ");
-  return '<a class="prof stone" href="'+esc(p.url)+'" target="_blank" rel="noopener"><div class="n">'+esc(p.platform)+' ↗</div><div class="h">@'+esc(HANDLES[p.platform]||"")+'</div><div class="s">'+(by||SEV.filter(s=>p.stats[s]).map(s=>p.stats[s]+" "+s).join(" · ")+" (list not public)"||"no public findings yet")+'</div><div class="h">'+extra+'</div></a>';
+  return '<a class="prof stone" href="'+esc(p.url)+'" target="_blank" rel="noopener"><div class="n">'+esc(p.platform)+' ↗</div><div class="h">@'+esc(HANDLES[p.platform]||"")+'</div><div class="s">'+(by||(st?st+" (list not public)":"no public findings yet"))+'</div><div class="h">'+extra+'</div></a>';
  }).join("");
  const plats=["All",...new Set(F.map(f=>f.platform))];
  let cur="All";
