@@ -1,12 +1,12 @@
 {
   "handle": "0xSeerBear",
-  "updated": "2026-11-26T17:38:56Z",
+  "updated": "2026-11-27T16:39:08Z",
   "profiles": [
     {
       "platform": "Sherlock",
       "url": "https://audits.sherlock.xyz/watson/0xSeerBear",
       "stats": {
-        "high": 3,
+        "high": 11,
         "medium": 2,
         "rank": 1424
       }
@@ -35,7 +35,7 @@
       "platform": "HackenProof",
       "url": "https://hackenproof.com/hackers/0xseerbear",
       "stats": {
-        "rank": 2681,
+        "rank": 2680,
         "reputation": 147
       }
     },
@@ -46,6 +46,86 @@
     }
   ],
   "findings": [
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
+    {
+      "platform": "Immunefi",
+      "competition": "Audit Competition | Plether",
+      "date": "2026-11",
+      "severity": "high",
+      "title": "Finding not yet public.",
+      "placement": 98,
+      "status": "accepted",
+      "source": "Sherlock"
+    },
     {
       "platform": "Immunefi",
       "competition": "Plether",
